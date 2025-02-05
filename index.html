@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+
+    <div class="max-w-lg mx-auto mt-8 p-6 bg-white shadow-xl rounded-lg">
+        <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">To-Do List</h2>
+
+        <!-- Add Task Form -->
+        <form action="/add" method="post" class="mb-6">
+            <div class="flex space-x-2">
+                <input type="text" name="title" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="Enter a new task" required>
+                <button type="submit" class="px-4 py-1.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 text-white rounded-lg shadow-lg hover:from-blue-600 hover:via-indigo-600 hover:to-purple-700 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 ease-out text-sm">Add</button>
+            </div>
+        </form>
+
+        <!-- Task List -->
+        <ul class="space-y-4">
+            {% for todo in todos %}
+                <li class="flex justify-between items-center p-4 bg-gray-50 rounded-md shadow-md">
+                    <span {% if todo.completed %} class="line-through text-gray-500" {% endif %}>
+                        {{ todo.title }}
+                    </span>
+                    <div class="space-x-2">
+                        {% if not todo.completed %}
+                            <a href="{{ url_for('complete', id=todo.id) }}" class="px-4 py-1.5 bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white rounded-lg shadow-lg hover:from-green-500 hover:via-green-600 hover:to-green-700 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-300 ease-out text-sm">Complete</a>
+                        {% endif %}
+                        <a href="{{ url_for('delete', id=todo.id) }}" class="px-4 py-1.5 bg-gradient-to-r from-red-400 via-red-500 to-red-600 text-white rounded-lg shadow-lg hover:from-red-500 hover:via-red-600 hover:to-red-700 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-400 transition-all duration-300 ease-out text-sm">Delete</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+</body>
+</html>
